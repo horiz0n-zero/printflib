@@ -6,7 +6,7 @@
 /*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 10:37:02 by afeuerst          #+#    #+#             */
-/*   Updated: 2018/11/06 10:55:52 by afeuerst         ###   ########.fr       */
+/*   Updated: 2018/11/06 12:06:49 by afeuerst         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdbool.h>
 
 int							ft_printf(const char *format, ...);
+int							ft_fprintf(const int fd, const char *format, ...);
 
 typedef struct s_printdata	t_printdata;
 
@@ -46,6 +47,7 @@ struct						s_printinfo
 			t_printinfo *const info);
 	uint64_t				total_len;
 	uint64_t				data;
+	uint64_t				free;
 };
 
 # define MINUS 1

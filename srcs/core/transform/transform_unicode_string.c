@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   transform_unicode_string.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/06 11:17:20 by afeuerst          #+#    #+#             */
+/*   Updated: 2018/11/06 11:17:43 by afeuerst         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libprintf.h"
 
-static void 			*push_four(char *dst, const wchar_t uni)
+static void				*push_four(char *dst, const wchar_t uni)
 {
 	*dst++ = (char)((uni >> 18) & 0x07) | 0xf0;
 	*dst++ = (char)((uni >> 12) & 0x3f) | 0x80;
@@ -9,7 +21,7 @@ static void 			*push_four(char *dst, const wchar_t uni)
 	return (dst);
 }
 
-static void 			*push_three(char *dst, const wchar_t uni)
+static void				*push_three(char *dst, const wchar_t uni)
 {
 	*dst++ = (char)((uni >> 12) & 0x0f) | 0xe0;
 	*dst++ = (char)((uni >> 6) & 0x3f) | 0x80;
@@ -17,14 +29,14 @@ static void 			*push_three(char *dst, const wchar_t uni)
 	return (dst);
 }
 
-static void 			*push_two(char *dst, const wchar_t uni)
+static void				*push_two(char *dst, const wchar_t uni)
 {
 	*dst++ = (char)((uni >> 6) & 0x1f) | 0xc0;
 	*dst++ = (char)(uni & 0x3f) | 0x80;
 	return (dst);
 }
 
-static void 			*push_one(char *dst, const wchar_t uni)
+static void				*push_one(char *dst, const wchar_t uni)
 {
 	*dst++ = (char)(uni & 0x7f) | 0x0;
 	return (dst);
@@ -32,7 +44,7 @@ static void 			*push_one(char *dst, const wchar_t uni)
 
 void					transform_unicode_string(t_printdata *data, char *dst)
 {
-	wchar_t 			*ptr;
+	wchar_t			*ptr;
 
 	ptr = (void*)data->data;
 	while (*ptr)

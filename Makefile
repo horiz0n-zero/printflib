@@ -3,7 +3,7 @@ NAME = libftprintf.a
 C_SRC = $(shell find ./srcs -type f | grep "\.c")
 O_SRC = $(C_SRC:.c=.o)
 
-FLAGS = -O0 -g -fsanitize=address
+FLAGS = -Wall -Werror -Wextra
 INCLUDES = -I ./includes
 
 PRINT = printf "\e[38;5;39m%-27s -->> \e[38;5;46m%-27s\n"
@@ -13,7 +13,6 @@ all: $(NAME)
 $(NAME): $(O_SRC)
 	@ar -rsc $@ $^
 	@printf "\e[38;5;190m%s is now available !\n\e[0;37m" $(NAME)
-	clang $(INCLUDES) $(FLAGS) main.c $(NAME) -o print
 
 %.o: %.c
 	@clang $< $(FLAGS) $(INCLUDES) -c -o $@ && $(PRINT) $(notdir $<) $(notdir $@)

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   transform_int.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/06 11:14:12 by afeuerst          #+#    #+#             */
+/*   Updated: 2018/11/06 11:19:52 by afeuerst         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libprintf.h"
 
-static void 			push_int(int64_t value, char *dst)
+static void				push_int(int64_t value, char *dst)
 {
 	if (!value)
 		*dst = '0';
@@ -11,7 +23,7 @@ static void 			push_int(int64_t value, char *dst)
 	}
 }
 
-static inline void 		*add_spec(t_printdata *const data, char *dst)
+static inline void		*add_spec(t_printdata *const data, char *dst)
 {
 	if (data->data < 0)
 	{
@@ -42,7 +54,7 @@ void					transform_int(t_printdata *data, char *dst)
 	else
 	{
 		while (data->width-- > 0)
-			*dst++ = ' ';	
+			*dst++ = ' ';
 		dst = add_spec(data, dst);
 		while (data->precision-- > 0)
 			*dst++ = '0';

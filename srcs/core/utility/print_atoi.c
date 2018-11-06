@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_atoi.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/06 11:22:20 by afeuerst          #+#    #+#             */
+/*   Updated: 2018/11/06 11:22:26 by afeuerst         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libprintf.h"
 
-uint32_t		atoi_print(uint64_t *const value, const char *const src, uint32_t index)
+uint32_t		atoi_print(uint64_t *const value, const char *const src,
+		uint32_t index)
 {
 	uint64_t	raw;
 

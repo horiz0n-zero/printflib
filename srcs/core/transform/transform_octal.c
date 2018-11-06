@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   transform_octal.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/06 11:14:29 by afeuerst          #+#    #+#             */
+/*   Updated: 2018/11/06 11:14:44 by afeuerst         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libprintf.h"
 
-static void 	push_octal(uint64_t value, char *dst)
-{	
+static void		push_octal(uint64_t value, char *dst)
+{
 	if (!value)
 		*dst = '0';
 	while (value)
@@ -13,7 +25,7 @@ static void 	push_octal(uint64_t value, char *dst)
 
 void			transform_octal(t_printdata *data, char *dst)
 {
-	const char 	pad = !data->precision && data->flags & ZERO ? '0' : ' ';
+	const char	pad = !data->precision && data->flags & ZERO ? '0' : ' ';
 
 	if (data->flags & MINUS)
 	{

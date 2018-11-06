@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lenght_octal.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/06 11:02:12 by afeuerst          #+#    #+#             */
+/*   Updated: 2018/11/06 11:09:55 by afeuerst         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libprintf.h"
 
-static uint64_t		octal_len(uint64_t value)
+static uint64_t			octal_len(uint64_t value)
 {
-	uint64_t 		len;
+	uint64_t			len;
 
 	len = 0;
 	if (!value)
@@ -15,7 +27,7 @@ static uint64_t		octal_len(uint64_t value)
 	return (len);
 }
 
-static const int64_t 	cut[8] =
+static const int64_t	g_cut[8] =
 {
 	[1] = 0xFF,
 	[2] = 0xFFFF
@@ -23,12 +35,12 @@ static const int64_t 	cut[8] =
 
 void					lenght_octal(t_printdata *data, va_list *args)
 {
-	uint64_t 			len;
+	uint64_t			len;
 
 	if (!data->lenght)
 		data->data = (int64_t)va_arg(*args, int32_t) & 0xFFFFFFFF;
 	else if (data->lenght <= 4)
-		data->data = ((int64_t)va_arg(*args, int32_t)) & cut[data->lenght];
+		data->data = ((int64_t)va_arg(*args, int32_t)) & g_cut[data->lenght];
 	else
 		data->data = va_arg(*args, int64_t);
 	len = octal_len((uint64_t)data->data);

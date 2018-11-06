@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lenght_unicode_string.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/06 11:05:42 by afeuerst          #+#    #+#             */
+/*   Updated: 2018/11/06 11:05:54 by afeuerst         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libprintf.h"
 
 void					lenght_unicode_string(t_printdata *data, va_list *args)
 {
-	wchar_t 			*ptr;
+	wchar_t				*ptr;
 
 	ptr = va_arg(*args, wchar_t*);
 	if (!ptr)

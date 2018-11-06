@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   printf_exec.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/06 10:51:57 by afeuerst          #+#    #+#             */
+/*   Updated: 2018/11/06 10:56:54 by afeuerst         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-# include "libprintf.h"
+#include "libprintf.h"
 
-static const lenght_func		g_functions_lenght[] =
+static const t_lenght_func		g_functions_lenght[] =
 {
-	[PRINT_ERROR] = lenght_void, // bad % description
+	[PRINT_ERROR] = lenght_void,
 	[PRINT_PERCENT] = lenght_percent,
 	[PRINT_S] = lenght_string,
 	[PRINT_SS] = lenght_unicode_string,
@@ -19,10 +30,9 @@ static const lenght_func		g_functions_lenght[] =
 	[PRINT_XX] = lenght_hexa,
 	[PRINT_C] = lenght_percent,
 	[PRINT_CC] = lenght_unicode
-
 };
 
-static const transform_func 	g_functions_transform[] =
+static const t_transform_func	g_functions_transform[] =
 {
 	[PRINT_ERROR] = transform_void,
 	[PRINT_PERCENT] = transform_percent,
@@ -42,7 +52,8 @@ static const transform_func 	g_functions_transform[] =
 	[PRINT_CC] = transform_unicode
 };
 
-static void 					printf_calculate(t_printinfo *const info, const char *const src)
+static void						printf_calculate(t_printinfo *const info,
+		const char *const src)
 {
 	uint32_t					index;
 	t_printdata					*data;
@@ -56,7 +67,8 @@ static void 					printf_calculate(t_printinfo *const info, const char *const src
 	{
 		if (src[index] == '%')
 		{
-			g_functions_transform[data->conversion](data, buffer + buffer_index);
+			g_functions_transform[data->conversion](data,
+					buffer + buffer_index);
 			index = data->end_index;
 			buffer_index += data->len;
 			data = data->next;
@@ -65,10 +77,10 @@ static void 					printf_calculate(t_printinfo *const info, const char *const src
 			buffer[buffer_index++] = src[index++];
 	}
 	buffer[buffer_index] = 0;
-	((void (*)(const char *const, t_printinfo *const))info->function)(buffer, info);
-} 
+	info->function(buffer, info);
+}
 
-static void 					printf_precalculate(t_printinfo *const info)
+static void						printf_precalculate(t_printinfo *const info)
 {
 	t_printdata					*data;
 
@@ -76,26 +88,18 @@ static void 					printf_precalculate(t_printinfo *const info)
 	while (data)
 	{
 		g_functions_lenght[data->conversion](data, info->args);
-		printf("[%s%s%s%s%s%s][%llu][%llu][%u][%u] len: %llu\n", 
-								data->flags & MINUS ? "-" : "*",
-								data->flags & PLUS ? "+" : "*",
-								data->flags & SPACE ? " " : "*",
-								data->flags & ZERO ? "0" : "*",
-								data->flags & HASH ? "#" : "*", 
-								data->flags & POINT ? "." : "*", 
-								data->width, data->precision, data->lenght, data->conversion, data->len);
-		
 		info->total_len += data->len;
 		data = data->next;
-	}	
+	}
 }
 
-void							printf_exec(const char *const src, t_printinfo *const info, t_printdata **next)
+void							printf_exec(const char *const src,
+		t_printinfo *const info, t_printdata **next)
 {
-	static uint32_t 			index = 0;
-	static void *const 			index_ptr = &index;
-	t_printdata 				data;
-	static const t_printdata 	def = {0, 0, 0, 0, 0, 0, 0, 0, NULL};
+	static uint32_t				index = 0;
+	static void *const			index_ptr = &index;
+	t_printdata					data;
+	static const t_printdata	def = {0, 0, 0, 0, 0, 0, 0, 0, NULL};
 
 	while (src[index] && src[index] != '%')
 	{
@@ -108,14 +112,6 @@ void							printf_exec(const char *const src, t_printinfo *const info, t_printda
 		data = def;
 		index++;
 		printf_get_data(src, index_ptr, &data);
-		printf("[%s%s%s%s%s%s][%llu][%llu][%u][%u] len: %llu\n", 
-								data.flags & MINUS ? "-" : "*",
-								data.flags & PLUS ? "+" : "*",
-								data.flags & SPACE ? " " : "*",
-								data.flags & ZERO ? "0" : "*",
-								data.flags & HASH ? "#" : "*", 
-								data.flags & POINT ? "." : "*", 
-								data.width, data.precision, data.lenght, data.conversion, data.len);
 		printf_exec(src, info, &data.next);
 	}
 	else if (!src[index])

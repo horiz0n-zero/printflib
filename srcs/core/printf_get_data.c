@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   printf_get_data.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/06 10:57:16 by afeuerst          #+#    #+#             */
+/*   Updated: 2018/11/06 10:58:59 by afeuerst         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libprintf.h"
 
@@ -21,7 +32,7 @@ static const uint32_t	g_conversion[256] =
 	['C'] = PRINT_CC
 };
 
-static const uint32_t 	g_flags[256] =
+static const uint32_t	g_flags[256] =
 {
 	['-'] = MINUS,
 	['+'] = PLUS,
@@ -30,7 +41,7 @@ static const uint32_t 	g_flags[256] =
 	['#'] = HASH
 };
 
-static const bool	 	g_lenght[256] =
+static const bool		g_lenght[256] =
 {
 	['h'] = true,
 	['l'] = true,
@@ -38,10 +49,11 @@ static const bool	 	g_lenght[256] =
 	['z'] = true
 };
 
-static uint32_t 		get_lenght(const char *const src, uint32_t index, uint32_t *const lenght)
+static uint32_t			get_lenght(const char *const src, uint32_t index,
+		uint32_t *const lenght)
 {
-	const char 		f = src[index];
-	const char 		s = src[index + 1];
+	const char			f = src[index];
+	const char			s = src[index + 1];
 
 	if (f == 'h')
 	{
@@ -62,19 +74,20 @@ static uint32_t 		get_lenght(const char *const src, uint32_t index, uint32_t *co
 	else if (f == 'z')
 		*lenght = sizeof(size_t);
 	while (g_lenght[(int)src[index]])
-			index++;
+		index++;
 	return (index);
 }
 
-void 					printf_get_data(const char *const src, uint32_t *const index_ptr, t_printdata *data)
+void					printf_get_data(const char *const src,
+		uint32_t *const index_ptr, t_printdata *data)
 {
-	uint32_t 			index;
+	uint32_t			index;
 
 	index = *index_ptr;
 	while (g_flags[(int)src[index]])
-			data->flags |= g_flags[(int)src[index++]];
+		data->flags |= g_flags[(int)src[index++]];
 	if (src[index] >= '0' && src[index] <= '9')
-			index = atoi_print(&data->width, src, index);
+		index = atoi_print(&data->width, src, index);
 	if (src[index] == '.')
 	{
 		while (src[index] == '.' && ++index)
@@ -82,7 +95,8 @@ void 					printf_get_data(const char *const src, uint32_t *const index_ptr, t_pr
 		index = atoi_print(&data->precision, src, index);
 	}
 	index = get_lenght(src, index, &data->lenght);
-	while (src[index] && (g_lenght[(int)src[index]] || g_flags[(int)src[index]] || src[index] == '.'))
+	while (src[index] && (g_lenght[(int)src[index]] ||
+				g_flags[(int)src[index]] || src[index] == '.'))
 	{
 		if (g_flags[(int)src[index]])
 			data->flags |= g_flags[(int)src[index]];

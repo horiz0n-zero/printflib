@@ -1,11 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   transform_pointer.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/06 11:15:03 by afeuerst          #+#    #+#             */
+/*   Updated: 2018/11/06 11:15:43 by afeuerst         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libprintf.h"
 
-static void 		pointer_push(uint64_t value, char *dst)
+static void			pointer_push(uint64_t value, char *dst)
 {
-	static char 	board[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a',
-								'b', 'c', 'd', 'e', 'f'};
-
 	if (!value)
 	{
 		*dst = '0';
@@ -13,7 +21,7 @@ static void 		pointer_push(uint64_t value, char *dst)
 	}
 	while (value)
 	{
-		*dst-- = board[value % 16];
+		*dst-- = "0123456789abcdef"[value % 16];
 		value /= 16;
 	}
 }

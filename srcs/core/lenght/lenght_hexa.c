@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lenght_hexa.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/06 10:59:35 by afeuerst          #+#    #+#             */
+/*   Updated: 2018/11/06 11:00:35 by afeuerst         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libprintf.h"
 
-static uint64_t		hexa_len(t_printdata *data)
+static uint64_t			hexa_len(t_printdata *data)
 {
-	uint64_t 		len;
-	uint64_t 		value;
+	uint64_t			len;
+	uint64_t			value;
 
 	value = (uint64_t)data->data;
 	len = 0;
@@ -21,7 +33,7 @@ static uint64_t		hexa_len(t_printdata *data)
 	return (len);
 }
 
-static const int64_t 	cut[8] =
+static const int64_t	g_cut[8] =
 {
 	[1] = 0xFF,
 	[2] = 0xFFFF
@@ -29,12 +41,12 @@ static const int64_t 	cut[8] =
 
 void					lenght_hexa(t_printdata *data, va_list *args)
 {
-	uint64_t 			len;
+	uint64_t			len;
 
 	if (!data->lenght)
 		data->data = (int64_t)va_arg(*args, int32_t) & 0xFFFFFFFF;
 	else if (data->lenght <= 4)
-		data->data = ((int64_t)va_arg(*args, int32_t)) & cut[data->lenght];
+		data->data = ((int64_t)va_arg(*args, int32_t)) & g_cut[data->lenght];
 	else
 		data->data = va_arg(*args, int64_t);
 	len = hexa_len(data);

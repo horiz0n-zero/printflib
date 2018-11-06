@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lenght_string.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/06 11:03:29 by afeuerst          #+#    #+#             */
+/*   Updated: 2018/11/06 11:03:40 by afeuerst         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libprintf.h"
 
-static uint64_t 	ft_strlen(const char *const src)
+static uint64_t		ft_strlen(const char *const src)
 {
-	uint64_t 		len;
+	uint64_t		len;
 
 	len = 0;
 	while (src[len])

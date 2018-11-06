@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lenght_int_long.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/06 11:01:39 by afeuerst          #+#    #+#             */
+/*   Updated: 2018/11/06 11:02:03 by afeuerst         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libprintf.h"
 
-static uint64_t 		int_len(int64_t value)
+static uint64_t			int_len(int64_t value)
 {
-	uint64_t 			len;
+	uint64_t			len;
 
 	len = 0;
 	if (value < 0)
@@ -17,7 +29,7 @@ static uint64_t 		int_len(int64_t value)
 	return (len);
 }
 
-static void 			add_spec(t_printdata *data)
+static void				add_spec(t_printdata *data)
 {
 	if (data->data < 0)
 		data->len++;
@@ -30,7 +42,7 @@ static void 			add_spec(t_printdata *data)
 
 void					lenght_int_long(t_printdata *data, va_list *args)
 {
-	uint64_t 			len;
+	uint64_t			len;
 
 	data->data = va_arg(*args, int64_t);
 	len = int_len(data->data);

@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   transform_hexa_lower.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afeuerst <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/06 11:11:21 by afeuerst          #+#    #+#             */
+/*   Updated: 2018/11/06 11:28:58 by afeuerst         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libprintf.h"
 
-static const char		lower[16] =
+static const char		g_lower[16] =
 {
 	'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 	'a', 'b', 'c', 'd', 'e', 'f'
 };
 
-static void 			push_hexa(t_printdata *data, char *dst)
+static void				push_hexa(t_printdata *data, char *dst)
 {
-	uint64_t 			value;
+	uint64_t			value;
 
 	value = (uint64_t)data->data;
 	if (!value)
@@ -20,15 +32,31 @@ static void 			push_hexa(t_printdata *data, char *dst)
 	}
 	while (value)
 	{
-		*dst-- = lower[value % 16];
+		*dst-- = g_lower[value % 16];
 		value /= 16;
 	}
 }
 
+static inline void		transform_hexa2(t_printdata *const data, char *dst,
+		const char pad)
+{
+	while (data->width-- > 0)
+		*dst++ = pad;
+	if (data->flags & HASH && data->data)
+	{
+		*dst++ = '0';
+		*dst++ = 'x';
+	}
+	while (data->precision && data->precision--)
+		*dst++ = '0';
+	push_hexa(data, (dst += data->lenght) - 1);
+}
+
 void					transform_hexa_lower(t_printdata *data, char *dst)
 {
-	const char 			pad = !data->precision && data->flags & ZERO ? '0' : ' ';
+	char				pad;
 
+	pad = !data->precision && data->flags & ZERO ? '0' : ' ';
 	if (data->flags & MINUS)
 	{
 		if (data->flags & HASH && data->data)
@@ -43,16 +71,5 @@ void					transform_hexa_lower(t_printdata *data, char *dst)
 			*dst++ = ' ';
 	}
 	else
-	{
-		while (data->width-- > 0)
-			*dst++ = pad;
-		if (data->flags & HASH && data->data)
-		{
-			*dst++ = '0';
-			*dst++ = 'x';
-		}
-		while (data->precision && data->precision--)
-			*dst++ = '0';
-		push_hexa(data, (dst += data->lenght) - 1);
-	}
+		transform_hexa2(data, dst, pad);
 }
